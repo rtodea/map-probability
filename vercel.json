@@ -1,6 +1,11 @@
 {
   "version": 2,
   "outputDirectory": "public",
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "data/births.db"
+    }
+  },
   "rewrites": [
     { "source": "/data/console", "destination": "/console.html" },
     { "source": "/data/download", "destination": "/api/download" }

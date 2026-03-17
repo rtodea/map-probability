@@ -11,11 +11,17 @@
 
 import initSqlJs from 'sql.js';
 import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const DEFAULT_DB_PATH = join(__dirname, '..', '..', 'data', 'births.db');
+
+// Locate sql-wasm.wasm via require.resolve so it works on both
+// local dev and Vercel serverless (where node_modules layout differs).
+const require = createRequire(import.meta.url);
+const WASM_PATH = join(dirname(require.resolve('sql.js')), 'sql-wasm.wasm');
 
 let cachedDb = null;
 
@@ -23,7 +29,8 @@ let cachedDb = null;
 export const getDb = async (dbPath = DEFAULT_DB_PATH) => {
   if (cachedDb) return cachedDb;
 
-  const SQL = await initSqlJs();
+  const wasmBinary = await readFile(WASM_PATH);
+  const SQL = await initSqlJs({ wasmBinary });
   const buffer = await readFile(dbPath);
   cachedDb = new SQL.Database(buffer);
   return cachedDb;
