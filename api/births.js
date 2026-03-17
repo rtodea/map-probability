@@ -1,14 +1,14 @@
 import { runQuery } from './lib/db.js';
 
 const json = (res, status, data) => {
-  res.writeHead(status, {
-    'Content-Type': 'application/json',
-    'Cache-Control': 'public, max-age=86400',
-  });
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.statusCode = status;
   res.end(JSON.stringify(data));
 };
 
-export default async function handler(req, res, { url }) {
+export default async function handler(req, res) {
+  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const year = url.searchParams.get('year');
   const level = url.searchParams.get('level') || 'country';
 
@@ -17,7 +17,6 @@ export default async function handler(req, res, { url }) {
   }
 
   try {
-    // Get available year range
     const yearRange = await runQuery(
       'SELECT MIN(year) as min_year, MAX(year) as max_year FROM birth_record'
     );
@@ -36,9 +35,7 @@ export default async function handler(req, res, { url }) {
     if (level === 'continent') {
       sql = `
         SELECT
-          ct.code,
-          ct.name,
-          ct.code as continent,
+          ct.code, ct.name, ct.code as continent,
           SUM(b.births) as births,
           SUM(b.births) * 1.0 / (SELECT SUM(births) FROM birth_record WHERE year = ?) as probability,
           NULL as birth_rate
@@ -52,12 +49,8 @@ export default async function handler(req, res, { url }) {
     } else {
       sql = `
         SELECT
-          c.iso_alpha3 as code,
-          c.name,
-          c.continent_code as continent,
-          b.births,
-          b.probability,
-          b.birth_rate
+          c.iso_alpha3 as code, c.name, c.continent_code as continent,
+          b.births, b.probability, b.birth_rate
         FROM birth_record b
         JOIN country c ON b.region_code = c.iso_alpha3
         WHERE b.year = ?

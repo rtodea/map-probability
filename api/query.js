@@ -6,21 +6,31 @@ const FORBIDDEN_PREFIXES = [
 ];
 
 const json = (res, status, data) => {
-  res.writeHead(status, {
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-  });
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.statusCode = status;
   res.end(JSON.stringify(data));
 };
 
-export default async function handler(_req, res, { body }) {
-  if (!body) {
+const readBody = (req) =>
+  new Promise((resolve) => {
+    // Vercel may pre-parse the body
+    if (req.body !== undefined) return resolve(JSON.stringify(req.body));
+    const chunks = [];
+    req.on('data', (chunk) => chunks.push(chunk));
+    req.on('end', () => resolve(Buffer.concat(chunks).toString()));
+  });
+
+export default async function handler(req, res) {
+  const raw = await readBody(req);
+
+  if (!raw) {
     return json(res, 400, { error: 'Request body is required.' });
   }
 
   let sql;
   try {
-    const parsed = JSON.parse(body);
+    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
     sql = parsed.sql;
   } catch {
     return json(res, 400, { error: 'Invalid JSON body.' });

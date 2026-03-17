@@ -1,6 +1,7 @@
-import { runQuery } from '../api/lib/db.js';
+import { runQuery } from './lib/db.js';
 
-export default async function handler(_req, res, { url }) {
+export default async function handler(req, res) {
+  const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const year = url.searchParams.get('year');
   const level = url.searchParams.get('level') || 'country';
 
@@ -37,7 +38,6 @@ export default async function handler(_req, res, { url }) {
 
     const result = await runQuery(sql, params);
 
-    // Build CSV
     const header = result.columns.join(',');
     const rows = result.rows.map((row) => row.join(',')).join('\n');
     const csv = `${header}\n${rows}`;
@@ -46,14 +46,14 @@ export default async function handler(_req, res, { url }) {
       ? `births-${year}-${level}.csv`
       : `births-all-${level}.csv`;
 
-    res.writeHead(200, {
-      'Content-Type': 'text/csv',
-      'Content-Disposition': `attachment; filename="${filename}"`,
-      'Cache-Control': 'public, max-age=86400',
-    });
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.statusCode = 200;
     res.end(csv);
   } catch (err) {
-    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.setHeader('Content-Type', 'application/json');
+    res.statusCode = 500;
     res.end(JSON.stringify({ error: err.message }));
   }
 }

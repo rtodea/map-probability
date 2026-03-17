@@ -84,9 +84,9 @@ const server = createServer(async (req, res) => {
       return serveStatic(res, join(__dirname, 'public', 'console.html'));
     }
     if (pathname.startsWith('/data/download')) {
-      const handler = await loadHandler(join(__dirname, 'data', 'download.js'));
+      const handler = await loadHandler(join(__dirname, 'api', 'download.js'));
       if (handler) {
-        await handler(req, res, { url, __dirname });
+        await handler(req, res);
       } else {
         res.writeHead(404, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Download handler not found' }));
