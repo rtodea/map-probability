@@ -110,6 +110,6 @@ const server = createServer(async (req, res) => {
   return serveStatic(res, filePath);
 });
 
-server.listen(PORT, () => {
-  console.log(`Dev server running at http://localhost:${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Dev server running at http://0.0.0.0:${PORT}`);
 });
