@@ -42,7 +42,12 @@ export const createMapView = async (container) => {
   // Load world TopoJSON
   const response = await fetch(TOPO_URL);
   const worldTopo = await response.json();
-  const countriesGeo = topojson.feature(worldTopo, worldTopo.objects.countries);
+  const allCountries = topojson.feature(worldTopo, worldTopo.objects.countries);
+  // Filter out Antarctica (numeric ID 10) — it has no birth data and renders as horizontal bands
+  const countriesGeo = {
+    ...allCountries,
+    features: allCountries.features.filter((f) => String(f.id) !== '10'),
+  };
 
   // Build continent geometries by merging countries
   // We'll need the country→continent map from the data
@@ -99,11 +104,11 @@ export const createMapView = async (container) => {
     });
   };
 
-  const renderLayer = (features, dataMap, level) => {
+  const renderLayer = (features, dataMap) => {
     const maxProb = Math.max(...Object.values(dataMap).map((d) => d.probability || 0), 0.01);
     currentData = { maxProbability: maxProb };
 
-    const enriched = mergeWithGeo(features, dataMap, level === 'country' ? numericToAlpha3 : null);
+    const enriched = mergeWithGeo(features, dataMap, numericToAlpha3);
 
     const geoLayer = L.geoJSON({ type: 'FeatureCollection', features: enriched }, {
       style: styleFeature,
@@ -145,7 +150,7 @@ export const createMapView = async (container) => {
       if (continentLayer) map.removeLayer(continentLayer);
 
       // Country layer
-      countryLayer = renderLayer(countriesGeo.features, countryDataMap, 'country');
+      countryLayer = renderLayer(countriesGeo.features, countryDataMap);
 
       // Continent layer — color individual country features by their continent's probability
       const continentData = aggregateContinents(regions, continentMap);
@@ -166,7 +171,7 @@ export const createMapView = async (container) => {
         }
       }
 
-      continentLayer = renderLayer(countriesGeo.features, countryContinentDataMap, 'continent');
+      continentLayer = renderLayer(countriesGeo.features, countryContinentDataMap);
 
       // Show appropriate layer
       currentLevel = map.getZoom() < CONTINENT_ZOOM_THRESHOLD ? 'continent' : 'country';
