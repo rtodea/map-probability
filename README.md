@@ -1,5 +1,6 @@
 # Birth Probability Map
 
+[![CI](https://github.com/rtodea/map-probability/actions/workflows/ci.yml/badge.svg)](https://github.com/rtodea/map-probability/actions/workflows/ci.yml)
 [![Vercel](https://img.shields.io/badge/deployed-Vercel-black?logo=vercel)](https://map-probability.vercel.app)
 [![GitHub](https://img.shields.io/badge/repo-GitHub-blue?logo=github)](https://github.com/rtodea/map-probability)
 
