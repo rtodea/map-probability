@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Console — Birth Probability Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+      color: #222;
+    }
+    h2 { margin-bottom: 8px; }
+    .hint { color: #666; margin-bottom: 16px; font-size: 14px; }
+    .hint code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+    textarea {
+      width: 100%;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 14px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+    }
+    .console-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 12px 0;
+    }
+    button {
+      padding: 8px 20px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    button:hover { background: #1d4ed8; }
+    #sql-status { font-size: 13px; color: #666; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    th, td {
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    th { background: #f5f5f5; font-weight: 600; }
+    tr:nth-child(even) td { background: #fafafa; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .nav { margin-bottom: 16px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <a href="/">&larr; Back to Map</a> |
+    <a href="/data/download">Download CSV</a>
+  </div>
+  <div id="console-root"></div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "ramda": "https://cdn.jsdelivr.net/npm/ramda@0.30.1/es/index.js"
+    }
+  }
+  </script>
+  <script type="module">
+    import { createSqlConsole } from './components/sql-console.js';
+    createSqlConsole(document.getElementById('console-root'));
+  </script>
+</body>
+</html>

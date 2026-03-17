@@ -1,0 +1,174 @@
+:root {
+  --color-min: #313695;
+  --color-low: #4575b4;
+  --color-mid-low: #74add1;
+  --color-mid: #fee090;
+  --color-mid-high: #f46d43;
+  --color-high: #d73027;
+  --color-max: #a50026;
+  --color-no-data: #cccccc;
+  --control-bg: rgba(255, 255, 255, 0.92);
+  --control-radius: 8px;
+  --touch-target: 44px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+#controls {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--control-bg);
+  padding: 10px 16px;
+  border-radius: var(--control-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#slider-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#slider-container input[type="range"] {
+  width: 240px;
+  height: 6px;
+  cursor: pointer;
+}
+
+#slider-container .year-label {
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+}
+
+#reset-btn {
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+#reset-btn:hover {
+  background: #f0f0f0;
+}
+
+#legend-container {
+  position: absolute;
+  bottom: 90px;
+  right: 16px;
+  z-index: 1000;
+  background: var(--control-bg);
+  padding: 10px 12px;
+  border-radius: var(--control-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+}
+
+.legend-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 14px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.tooltip-content {
+  font-size: 13px;
+  line-height: 1.4;
+  max-width: 220px;
+}
+
+.tooltip-content .name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tooltip-content .stat {
+  color: #555;
+}
+
+/* Responsive: tablets and phones */
+@media (max-width: 768px) {
+  #controls {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    transform: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  #slider-container {
+    width: 100%;
+  }
+
+  #slider-container input[type="range"] {
+    width: 100%;
+    flex: 1;
+    height: 8px;
+  }
+
+  #reset-btn {
+    width: 100%;
+  }
+
+  #legend-container {
+    bottom: auto;
+    top: 12px;
+    right: 12px;
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 375px) {
+  #legend-container {
+    max-width: 120px;
+  }
+}

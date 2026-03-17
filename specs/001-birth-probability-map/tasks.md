@@ -19,13 +19,13 @@
 
 **Purpose**: Create project structure, configuration, and dev tooling
 
-- [ ] T001 Initialize package.json with `"type": "module"`, name `map-probability`, and scripts (`dev`, `test`, `lint`, `ingest`) in package.json
-- [ ] T002 Install server-side dependencies: sql.js in package.json
-- [ ] T003 [P] Create vercel.json with routes for `/api/*`, `/data/download`, `/data/console` rewrites, and static `public/` serving in vercel.json
-- [ ] T004 [P] Create public/index.html with import map declaring CDN URLs for ramda, leaflet, topojson-client, and sql.js; include Leaflet CSS; add `<div id="map">` and `<script type="module" src="./shell/app.js">` in public/index.html
-- [ ] T005 [P] Create public/styles/main.css with full-viewport map layout, responsive breakpoints (375px–2560px), and CSS custom properties for heatmap colors in public/styles/main.css
-- [ ] T006 [P] Create local development server that serves public/ as static files and routes /api/* and /data/* to handler modules in server.js
-- [ ] T007 [P] Create ESLint config for ES2024+ with module rules (no build, no TS) in eslint.config.js
+- [x] T001 Initialize package.json with `"type": "module"`, name `map-probability`, and scripts (`dev`, `test`, `lint`, `ingest`) in package.json
+- [x] T002 Install server-side dependencies: sql.js in package.json
+- [x] T003 [P] Create vercel.json with routes for `/api/*`, `/data/download`, `/data/console` rewrites, and static `public/` serving in vercel.json
+- [x] T004 [P] Create public/index.html with import map declaring CDN URLs for ramda, leaflet, topojson-client, and sql.js; include Leaflet CSS; add `<div id="map">` and `<script type="module" src="./shell/app.js">` in public/index.html
+- [x] T005 [P] Create public/styles/main.css with full-viewport map layout, responsive breakpoints (375px–2560px), and CSS custom properties for heatmap colors in public/styles/main.css
+- [x] T006 [P] Create local development server that serves public/ as static files and routes /api/* and /data/* to handler modules in server.js
+- [x] T007 [P] Create ESLint config for ES2024+ with module rules (no build, no TS) in eslint.config.js
 
 **Checkpoint**: `npm install && npm run dev` serves an empty page with import map loaded
 
@@ -38,22 +38,22 @@
 **CRITICAL**: No user story work can begin until this phase is complete
 
 - [ ] T008 Write test for data ingestion script: verify CSV parsing, M49-to-ISO normalization, probability computation, and SQLite output in scripts/ingest.test.js
-- [ ] T009 Implement data ingestion script: download UN WPP CSV, parse country metadata + birth records, compute probabilities, write to data/births.db using sql.js in scripts/ingest.js
-- [ ] T010 Run ingest script to produce initial data/births.db and commit the database file in data/births.db
-- [ ] T011 [P] Write tests for probability calculation pure functions: probability from births, percentage formatting, global total computation in public/core/probability.test.js
-- [ ] T012 [P] Write tests for color scale pure functions: value-to-hex mapping, scale generation, legend range computation in public/core/colors.test.js
-- [ ] T013 [P] Write tests for region data transform functions: group by continent, filter by year, sort by probability, merge with geo data in public/core/regions.test.js
-- [ ] T014 [P] Implement probability calculation pure functions using Ramda: `probabilityOf`, `percentFormat`, `globalTotal`, `withProbabilities` in public/core/probability.js
-- [ ] T015 [P] Implement heatmap color scale pure functions using Ramda: `colorForValue` (sequential blue→red), `scaleSteps`, `legendRanges` in public/core/colors.js
-- [ ] T016 [P] Implement region data transform functions using Ramda: `groupByContinent`, `filterByYear`, `sortByProbability`, `mergeWithGeo` in public/core/regions.js
+- [x] T009 Implement data ingestion script: download UN WPP CSV, parse country metadata + birth records, compute probabilities, write to data/births.db using sql.js in scripts/ingest.js
+- [x] T010 Run ingest script to produce initial data/births.db and commit the database file in data/births.db
+- [x] T011 [P] Write tests for probability calculation pure functions: probability from births, percentage formatting, global total computation in public/core/probability.test.js
+- [x] T012 [P] Write tests for color scale pure functions: value-to-hex mapping, scale generation, legend range computation in public/core/colors.test.js
+- [x] T013 [P] Write tests for region data transform functions: group by continent, filter by year, sort by probability, merge with geo data in public/core/regions.test.js
+- [x] T014 [P] Implement probability calculation pure functions using Ramda: `probabilityOf`, `percentFormat`, `globalTotal`, `withProbabilities` in public/core/probability.js
+- [x] T015 [P] Implement heatmap color scale pure functions using Ramda: `colorForValue` (sequential blue→red), `scaleSteps`, `legendRanges` in public/core/colors.js
+- [x] T016 [P] Implement region data transform functions using Ramda: `groupByContinent`, `filterByYear`, `sortByProbability`, `mergeWithGeo` in public/core/regions.js
 - [ ] T017 [P] Write test for shared db-loader module: verify sql.js initialization, .db file loading, and query execution in api/lib/db.test.js
-- [ ] T018 [P] Implement shared db-loader module: initialize sql.js, load data/births.db, export `query(sql, params)` helper in api/lib/db.js
+- [x] T018 [P] Implement shared db-loader module: initialize sql.js, load data/births.db, export `query(sql, params)` helper in api/lib/db.js
 - [ ] T019 Write test for GET /api/births endpoint: verify JSON response shape, year/level query params, default to latest year, 400 on invalid year in api/births.test.js
-- [ ] T020 Implement GET /api/births endpoint: query birth_record via db-loader, return JSON per contract in api/births.js
+- [x] T020 Implement GET /api/births endpoint: query birth_record via db-loader, return JSON per contract in api/births.js
 - [ ] T021 [P] Write test for GET /api/years endpoint: verify min_year, max_year, count response in api/years.test.js
-- [ ] T022 [P] Implement GET /api/years endpoint: query min/max year from birth_record in api/years.js
-- [ ] T023 Implement data-loader shell module: fetch /api/births and /api/years, cache responses by year, expose `loadBirths(year, level)` and `loadYearRange()` in public/shell/data-loader.js
-- [ ] T024 Implement application state container: hold current year, zoom level, granularity, selected region; expose subscribe/update pattern in public/shell/state.js
+- [x] T022 [P] Implement GET /api/years endpoint: query min/max year from birth_record in api/years.js
+- [x] T023 Implement data-loader shell module: fetch /api/births and /api/years, cache responses by year, expose `loadBirths(year, level)` and `loadYearRange()` in public/shell/data-loader.js
+- [x] T024 Implement application state container: hold current year, zoom level, granularity, selected region; expose subscribe/update pattern in public/shell/state.js
 
 **Checkpoint**: Foundation ready — `npm test` passes, API endpoints return real data, core pure functions tested
 
@@ -76,12 +76,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T029 [US1] Implement map-view component: initialize Leaflet map, load TopoJSON from CDN, convert to GeoJSON via topojson-client, render choropleth layer with `colorForValue` styling; expose `updateData(regions)` and `onRegionHover(callback)` in public/components/map-view.js
-- [ ] T030 [US1] Implement tooltip component: create positioned overlay, render region name + probability % + birth count, show on hover/tap, hide on mouse leave in public/components/tooltip.js
-- [ ] T031 [US1] Implement legend component: render vertical color scale with probability range labels using `legendRanges` from core/colors.js in public/components/legend.js
-- [ ] T032 [US1] Implement zoom-level granularity switching in map-view: listen to Leaflet `zoomend` event, switch between continent (merged geometries) and country layers based on zoom threshold in public/components/map-view.js
-- [ ] T033 [US1] Implement app shell wiring: on load, fetch current year data via data-loader, initialize map-view + tooltip + legend, wire state updates in public/shell/app.js
-- [ ] T034 [US1] Add "Reset view" button: return map to default zoom + current year on click in public/shell/app.js
+- [x] T029 [US1] Implement map-view component: initialize Leaflet map, load TopoJSON from CDN, convert to GeoJSON via topojson-client, render choropleth layer with `colorForValue` styling; expose `updateData(regions)` and `onRegionHover(callback)` in public/components/map-view.js
+- [x] T030 [US1] Implement tooltip component: create positioned overlay, render region name + probability % + birth count, show on hover/tap, hide on mouse leave in public/components/tooltip.js
+- [x] T031 [US1] Implement legend component: render vertical color scale with probability range labels using `legendRanges` from core/colors.js in public/components/legend.js
+- [x] T032 [US1] Implement zoom-level granularity switching in map-view: listen to Leaflet `zoomend` event, switch between continent (merged geometries) and country layers based on zoom threshold in public/components/map-view.js
+- [x] T033 [US1] Implement app shell wiring: on load, fetch current year data via data-loader, initialize map-view + tooltip + legend, wire state updates in public/shell/app.js
+- [x] T034 [US1] Add "Reset view" button: return map to default zoom + current year on click in public/shell/app.js
 
 **Checkpoint**: User Story 1 fully functional — map shows current heatmap, tooltips work, continent/country switching works
 
@@ -102,11 +102,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T037 [US2] Implement time-slider component: create range input, fetch year range from /api/years, display current year label, emit `yearChange` events with debounce in public/components/time-slider.js
-- [ ] T038 [US2] Wire time-slider into app shell: on yearChange, update state, fetch data for new year via data-loader, call map-view.updateData() in public/shell/app.js
+- [x] T037 [US2] Implement time-slider component: create range input, fetch year range from /api/years, display current year label, emit `yearChange` events with debounce in public/components/time-slider.js
+- [x] T038 [US2] Wire time-slider into app shell: on yearChange, update state, fetch data for new year via data-loader, call map-view.updateData() in public/shell/app.js
 - [ ] T039 [US2] Add smooth map color transitions: use CSS transition on choropleth fill-opacity or interpolate between color states during slider scrub in public/components/map-view.js
-- [ ] T040 [US2] Update tooltip to reflect selected year data: bind tooltip content to current state year in public/components/tooltip.js
-- [ ] T041 [US2] Update "Reset view" button to also reset year to current in public/shell/app.js
+- [x] T040 [US2] Update tooltip to reflect selected year data: bind tooltip content to current state year in public/components/tooltip.js
+- [x] T041 [US2] Update "Reset view" button to also reset year to current in public/shell/app.js
 
 **Checkpoint**: User Stories 1 AND 2 both work — slider changes year, map updates smoothly, tooltips reflect selected year
 
@@ -124,10 +124,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T043 [US3] Add responsive CSS for mobile: reposition time-slider below map at ≤768px, enlarge touch targets to 44px minimum, constrain tooltip width to viewport in public/styles/main.css
-- [ ] T044 [US3] Implement touch-friendly tooltip: tap to open, tap elsewhere to dismiss, prevent tooltip from extending off-screen on narrow viewports in public/components/tooltip.js
-- [ ] T045 [US3] Verify Leaflet touch interactions: ensure pinch-to-zoom, swipe-to-pan, and tap work correctly; disable browser zoom on double-tap if conflicting in public/components/map-view.js
-- [ ] T046 [US3] Handle orientation change: listen for `resize` / `orientationchange`, invalidate Leaflet map size, reflow slider position in public/shell/app.js
+- [x] T043 [US3] Add responsive CSS for mobile: reposition time-slider below map at ≤768px, enlarge touch targets to 44px minimum, constrain tooltip width to viewport in public/styles/main.css
+- [x] T044 [US3] Implement touch-friendly tooltip: tap to open, tap elsewhere to dismiss, prevent tooltip from extending off-screen on narrow viewports in public/components/tooltip.js
+- [x] T045 [US3] Verify Leaflet touch interactions: ensure pinch-to-zoom, swipe-to-pan, and tap work correctly; disable browser zoom on double-tap if conflicting in public/components/map-view.js
+- [x] T046 [US3] Handle orientation change: listen for `resize` / `orientationchange`, invalidate Leaflet map size, reflow slider position in public/shell/app.js
 
 **Checkpoint**: All user stories independently functional on desktop and mobile
 
@@ -139,12 +139,12 @@
 
 - [ ] T047 [P] Write test for POST /api/query endpoint: verify SELECT execution, column/row response shape, rejection of non-SELECT statements, 5s timeout in api/query.test.js
 - [ ] T048 [P] Write test for GET /data/download endpoint: verify CSV output format, Content-Disposition header, year/level filtering in data/download.test.js
-- [ ] T049 Implement POST /api/query endpoint: parse SQL from body, validate SELECT-only, execute via db-loader, return columns + rows + duration_ms in api/query.js
-- [ ] T050 Implement GET /data/download endpoint: query birth data, format as CSV, set Content-Disposition header with filename in data/download.js
+- [x] T049 Implement POST /api/query endpoint: parse SQL from body, validate SELECT-only, execute via db-loader, return columns + rows + duration_ms in api/query.js
+- [x] T050 Implement GET /data/download endpoint: query birth data, format as CSV, set Content-Disposition header with filename in data/download.js
 - [ ] T051 [P] Write test for sql-console component: verify textarea input, execute button, results table rendering, error display in public/components/sql-console.test.js
-- [ ] T052 Implement sql-console component: textarea for SQL input, execute button, results rendered as HTML table, error display in public/components/sql-console.js
-- [ ] T053 Create public/console.html with import map and sql-console component mount in public/console.html
-- [ ] T054 [P] Implement query helper pure functions: SQL sanitization check (SELECT-only), result-to-table transform in public/core/query.js
+- [x] T052 Implement sql-console component: textarea for SQL input, execute button, results rendered as HTML table, error display in public/components/sql-console.js
+- [x] T053 Create public/console.html with import map and sql-console component mount in public/console.html
+- [x] T054 [P] Implement query helper pure functions: SQL sanitization check (SELECT-only), result-to-table transform in public/core/query.js
 
 **Checkpoint**: /data/console shows working SQL interface, /data/download returns CSV
 
@@ -154,11 +154,11 @@
 
 **Purpose**: Documentation, testing sweep, performance, and deployment verification
 
-- [ ] T055 [P] Create docs/architecture.md with MermaidJS system overview diagram (browser ↔ CDN ↔ server ↔ SQLite) in docs/architecture.md
-- [ ] T056 [P] Create docs/data-model.md with MermaidJS ER diagram and entity descriptions (copy from spec data-model.md, expand with usage notes) in docs/data-model.md
-- [ ] T057 [P] Create docs/index.md as documentation table of contents linking architecture.md, data-model.md, and quickstart in docs/index.md
-- [ ] T058 [P] Add companion .md doc header blocks (≥10 lines) to each core module explaining purpose, public API, and design decisions in public/core/probability.js, public/core/colors.js, public/core/regions.js, public/core/query.js
-- [ ] T059 Run full test suite, fix any failures, verify ≥80% coverage on core/ modules
+- [x] T055 [P] Create docs/architecture.md with MermaidJS system overview diagram (browser ↔ CDN ↔ server ↔ SQLite) in docs/architecture.md
+- [x] T056 [P] Create docs/data-model.md with MermaidJS ER diagram and entity descriptions (copy from spec data-model.md, expand with usage notes) in docs/data-model.md
+- [x] T057 [P] Create docs/index.md as documentation table of contents linking architecture.md, data-model.md, and quickstart in docs/index.md
+- [x] T058 [P] Add companion .md doc header blocks (≥10 lines) to each core module explaining purpose, public API, and design decisions in public/core/probability.js, public/core/colors.js, public/core/regions.js, public/core/query.js
+- [x] T059 Run full test suite, fix any failures, verify ≥80% coverage on core/ modules
 - [ ] T060 Performance audit: verify initial load < 3s, map interaction < 500ms, slider update < 500ms; optimize if needed
 - [ ] T061 Deploy to Vercel preview, verify all routes work (/api/births, /data/download, /data/console, /)
 - [ ] T062 Run quickstart.md validation: fresh clone → npm install → npm run dev → verify working app
