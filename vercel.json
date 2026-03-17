@@ -3,7 +3,7 @@
   "outputDirectory": "public",
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "data/births.db"
+      "includeFiles": ["data/births.db", "node_modules/sql.js/dist/sql-wasm.wasm"]
     }
   },
   "rewrites": [
