@@ -14,7 +14,7 @@ graph TB
         Shell --> Components
     end
 
-    subgraph CDN["jsdelivr CDN"]
+    subgraph CDN["esm.sh CDN"]
         Ramda["Ramda 0.30.x"]
         Leaflet["Leaflet 1.9.x"]
         TopoJSON["topojson-client 3.x"]
@@ -22,7 +22,7 @@ graph TB
 
     subgraph Server["Vercel / Node.js"]
         API["api/<br/>births.js, years.js, query.js"]
-        Download["data/download.js"]
+        Download["api/download.js"]
         DB[("data/births.db<br/>SQLite via sql.js")]
         API --> DB
         Download --> DB
