@@ -1,0 +1,14 @@
+node_modules/
+.git/
+.gitignore
+.specify/
+specs/
+docs/
+coverage/
+*.md
+!README.md
+.env*
+.vscode/
+.idea/
+*.test.js
+eslint.config.js
