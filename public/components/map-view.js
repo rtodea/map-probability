@@ -147,41 +147,26 @@ export const createMapView = async (container) => {
       // Country layer
       countryLayer = renderLayer(countriesGeo.features, countryDataMap, 'country');
 
-      // Continent layer — aggregate and merge
+      // Continent layer — color individual country features by their continent's probability
       const continentData = aggregateContinents(regions, continentMap);
       const continentDataMap = {};
       for (const c of continentData) {
         continentDataMap[c.code] = c;
       }
 
-      // For continent geometries, merge country features by continent
-      const continentFeatures = [];
-      const byCont = {};
+      // Build a per-country map that carries continent-level data
+      const countryContinentDataMap = {};
       for (const feat of countriesGeo.features) {
         const rawId = String(feat.id).padStart(3, '0');
         const code = feat.properties?.iso_a3 || numericToAlpha3.get(rawId) || feat.id;
         const cont = continentMap[code] || 'UNKNOWN';
-        if (!byCont[cont]) byCont[cont] = [];
-        byCont[cont].push(feat);
+        const cData = continentDataMap[cont];
+        if (cData) {
+          countryContinentDataMap[code] = { ...cData, code };
+        }
       }
 
-      for (const [contCode, features] of Object.entries(byCont)) {
-        if (contCode === 'UNKNOWN') continue;
-        // Create a simple merged feature by using the first feature's geometry
-        // (proper merging would need topojson.merge, but this works for visualization)
-        const merged = {
-          type: 'Feature',
-          id: contCode,
-          properties: { code: contCode, name: continentDataMap[contCode]?.name || contCode },
-          geometry: {
-            type: 'GeometryCollection',
-            geometries: features.map((f) => f.geometry),
-          },
-        };
-        continentFeatures.push(merged);
-      }
-
-      continentLayer = renderLayer(continentFeatures, continentDataMap, 'continent');
+      continentLayer = renderLayer(countriesGeo.features, countryContinentDataMap, 'continent');
 
       // Show appropriate layer
       currentLevel = map.getZoom() < CONTINENT_ZOOM_THRESHOLD ? 'continent' : 'country';
