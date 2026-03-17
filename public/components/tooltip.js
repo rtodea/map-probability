@@ -13,7 +13,7 @@
 import { percentFormat } from '../core/probability.js';
 
 const formatBirths = (n) => {
-  if (n == null) return 'N/A';
+  if (n === null || n === undefined) return 'N/A';
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
   if (n >= 1_000) return `${(n / 1_000).toFixed(0)}K`;
   return String(n);
@@ -44,7 +44,7 @@ export const createTooltip = (container) => {
       if (!data) return;
       clearTimeout(dismissTimeout);
 
-      const prob = data.probability != null
+      const prob = data.probability !== null && data.probability !== undefined
         ? percentFormat(data.probability)
         : 'No data';
       const births = formatBirths(data.births);
@@ -61,7 +61,6 @@ export const createTooltip = (container) => {
       let y = (event?.originalEvent?.clientY || event?.clientY || 0) - mapRect.top - 10;
 
       // Keep within viewport
-      const elRect = el.getBoundingClientRect();
       if (x + 220 > mapRect.width) x = x - 240;
       if (y + 80 > mapRect.height) y = y - 80;
       if (x < 0) x = 8;
@@ -85,7 +84,7 @@ export const createTooltip = (container) => {
         return;
       }
       // Reuse show logic
-      const prob = data.probability != null
+      const prob = data.probability !== null && data.probability !== undefined
         ? percentFormat(data.probability)
         : 'No data';
       const births = formatBirths(data.births);

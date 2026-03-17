@@ -38,7 +38,7 @@ const init = async () => {
     state.set('year', currentYear);
 
     // Build country→continent map from initial data
-    let continentMap = {};
+    const continentMap = {};
 
     const updateMap = async (year) => {
       const data = await loadBirths(year, 'country');

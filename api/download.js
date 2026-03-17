@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   try {
     let sql;
-    let params = [];
+    const params = [];
 
     if (level === 'continent') {
       sql = `

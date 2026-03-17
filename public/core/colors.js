@@ -45,7 +45,7 @@ const lerpColor = (c1, c2, t) =>
  * Returns NO_DATA_COLOR for null/undefined/NaN.
  */
 export const colorForValue = (value, min = 0, max = 1) => {
-  if (value == null || Number.isNaN(value)) return NO_DATA_COLOR;
+  if (value === null || value === undefined || Number.isNaN(value)) return NO_DATA_COLOR;
 
   const stops = HEATMAP_STOPS;
   const t = Math.max(0, Math.min(1, (value - min) / (max - min || 1)));

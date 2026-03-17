@@ -46,7 +46,7 @@ export const createMapView = async (container) => {
 
   // Build continent geometries by merging countries
   // We'll need the country→continent map from the data
-  let continentGeoFeatures = [];
+  // continent features built dynamically in updateData
 
   let countryLayer = null;
   let continentLayer = null;
@@ -59,7 +59,7 @@ export const createMapView = async (container) => {
     const prob = feature.properties?.probability;
     const maxProb = currentData?.maxProbability || 0.2;
     return {
-      fillColor: prob != null ? colorForValue(prob, 0, maxProb) : NO_DATA_COLOR,
+      fillColor: prob !== null && prob !== undefined ? colorForValue(prob, 0, maxProb) : NO_DATA_COLOR,
       weight: 1,
       opacity: 0.7,
       color: '#ffffff',
