@@ -16,6 +16,7 @@ import L from 'leaflet';
 import * as topojson from 'topojson-client';
 import { colorForValue, NO_DATA_COLOR } from '../core/colors.js';
 import { mergeWithGeo, aggregateContinents } from '../core/regions.js';
+import { numericToAlpha3 } from '../core/iso-codes.js';
 
 const TOPO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 const DEFAULT_CENTER = [20, 0];
@@ -102,7 +103,7 @@ export const createMapView = async (container) => {
     const maxProb = Math.max(...Object.values(dataMap).map((d) => d.probability || 0), 0.01);
     currentData = { maxProbability: maxProb };
 
-    const enriched = mergeWithGeo(features, dataMap);
+    const enriched = mergeWithGeo(features, dataMap, level === 'country' ? numericToAlpha3 : null);
 
     const geoLayer = L.geoJSON({ type: 'FeatureCollection', features: enriched }, {
       style: styleFeature,
@@ -157,7 +158,8 @@ export const createMapView = async (container) => {
       const continentFeatures = [];
       const byCont = {};
       for (const feat of countriesGeo.features) {
-        const code = feat.properties?.iso_a3 || feat.id;
+        const rawId = String(feat.id).padStart(3, '0');
+        const code = feat.properties?.iso_a3 || numericToAlpha3.get(rawId) || feat.id;
         const cont = continentMap[code] || 'UNKNOWN';
         if (!byCont[cont]) byCont[cont] = [];
         byCont[cont].push(feat);

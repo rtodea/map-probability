@@ -35,11 +35,15 @@ export const groupByContinent = (records) =>
 /**
  * Merge birth data into GeoJSON features.
  * dataMap: { countryCode: { probability, births, ... } }
+ * numericToAlpha3: Map<string, string> mapping numeric ISO IDs to alpha-3
  * Returns new features array with .properties enriched.
  */
-export const mergeWithGeo = (features, dataMap) =>
+export const mergeWithGeo = (features, dataMap, numericToAlpha3 = null) =>
   features.map((feature) => {
-    const code = feature.properties?.iso_a3 || feature.id;
+    const rawId = String(feature.id).padStart(3, '0');
+    const code = feature.properties?.iso_a3
+      || (numericToAlpha3 && numericToAlpha3.get(rawId))
+      || feature.id;
     const data = dataMap[code] || null;
     return {
       ...feature,

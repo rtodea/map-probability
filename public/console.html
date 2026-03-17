@@ -59,6 +59,23 @@
     a { color: #2563eb; text-decoration: none; }
     a:hover { text-decoration: underline; }
     .nav { margin-bottom: 16px; font-size: 14px; }
+    .schema-help { margin-bottom: 16px; font-size: 14px; }
+    .schema-help summary { cursor: pointer; margin-bottom: 8px; }
+    .schema-tables { margin: 8px 0; }
+    .schema-tables div { margin: 4px 0; color: #444; }
+    .schema-tables code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+    .examples { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .example-btn {
+      padding: 5px 12px;
+      background: #f0f4ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 400;
+    }
+    .example-btn:hover { background: #dbeafe; }
   </style>
 </head>
 <body>
@@ -76,7 +93,7 @@
   }
   </script>
   <script type="module">
-    import { createSqlConsole } from './components/sql-console.js';
+    import { createSqlConsole } from '/components/sql-console.js';
     createSqlConsole(document.getElementById('console-root'));
   </script>
 </body>
